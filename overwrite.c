@@ -132,10 +132,14 @@ char mixed_bytes(int pass, int byte) {
 			}
 			break;
 		default:
-			// Abort this method if an invalid pass is provided (this results in a messy exit - no cleanup is done)
+			/*
+            // Abort this method if an invalid pass is provided (this results in a messy exit - no cleanup is done)
 			puts("--Invalid pass using Gutmann's method");
-			exit(1);
-	}
+			exit(1); 
+            */
+
+            val = rand() % 256; break;
+	   }
 	
 	return val;
 }
