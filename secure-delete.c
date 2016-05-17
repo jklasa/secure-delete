@@ -15,10 +15,10 @@ int main(int argc, char **argv) {
 
 	// Get the file descriptor
 	int fd = open(argv[1], O_RDWR, S_IWRITE | S_IREAD);
-    if (fd < 0) {
-        puts("--Invalid file");
-        exit(1);
-    }
+	if (fd < 0) {
+	    puts("--Invalid file");
+	    exit(1);
+	}
 
 	// Get size of the file
 	int size = lseek(fd, 0, SEEK_END);
@@ -26,7 +26,7 @@ int main(int argc, char **argv) {
 
 	// Set overwrite type
 	int type = 1;
-    long nPasses = 7;
+	long nPasses = 7;
 	if (argc >= 3) {
 		char *ptr;
 		type = strtol(argv[2], &ptr, 10);
@@ -50,7 +50,7 @@ int main(int argc, char **argv) {
 		case 3:
 			srand(time(NULL));
 			overwrite = &mixed_bytes;
-            nPasses = 35;
+			nPasses = 35;
 			break;
 		default:
 			puts("--Invalid overwrite type");
