@@ -1,5 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "overwrite.h"
+
+/*
+ * Only this file (and the header file) needs to be edited when adding a new overwrite method
+ */
+
+
+// Available overwrite types
+const type_t types[] = { {.name = "Set Bytes", .overwrite = &set_bytes},
+						{.name = "Random", .overwrite = &random_bytes},
+						{.name = "Gutmann", .overwrite = &mixed_bytes} };
+const int NUM_TYPES = 3;
+const char * const type_descriptions = "Overwrite types: (1) set bytes (0s), (2) random bytes, (3) mixed (using Gutmann's method)";
 
 // Overwrite using zeros
 char set_bytes(int pass, int byte) {

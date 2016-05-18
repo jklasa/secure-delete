@@ -28,6 +28,7 @@ bool str_to_int(char *str, int *val) {
 	return true;
 }
 
+// Program main routine
 int main(int argc, char **argv) {
 	if (argc <= 1) {
 		puts("Correct usage: ./sdel <filename>");
@@ -35,7 +36,7 @@ int main(int argc, char **argv) {
 		puts("\t[-n number of passes (default=7, or 35 if type==3)]");
 		puts("\t[-s maximum buffer size between disk writes (default=1)]");
 		puts("\t[-b set byte (decimal value) to overwrite in type 1 (default=0)]");
-		puts("Overwrite types: (1) set bytes (0s), (2) random bytes, (3) mixed (using Gutmann's method)");
+		puts(type_descriptions);
 		exit(1);
 	}
 
@@ -60,6 +61,10 @@ int main(int argc, char **argv) {
 			if (!str_to_int(argv[a + 1], &type)) {
 				failure = true;
 				break;
+			}
+
+			if (type < 1 || type > NUM_TYPES) {
+				puts("--Invalid overwrite type");
 			}
 
 			if (type == 3) {
@@ -111,29 +116,11 @@ int main(int argc, char **argv) {
 	int size = lseek(fd, 0, SEEK_END);
 	lseek(fd, 0, SEEK_SET);
 
-	// Set overwrite function based on type
-	overwriteType overwrite;
-	switch (type) {
-		case 1:
-			overwrite = &set_bytes;
-			break;
-		case 2:
-			srand(time(NULL));
-			overwrite = &random_bytes;
-			break;
-		case 3:
-			srand(time(NULL));
-			overwrite = &mixed_bytes;
-			break;
-		default:
-			puts("--Invalid overwrite type");
-			close(fd);
-			exit(1);
-	}
+	// Initialize the random generator with seed in case it is needed
+	srand(time(NULL));
 
 	// Print out the deletion settings
-	const char * const types[] = { "Set Byte", "Random", "Gutmann" };
-	printf("Deleting file '%s' with %d passes of %s method with byte %d and buffer size %d...\n", argv[1], num_passes, types[type - 1], byte, buf_size);
+	printf("Deleting file '%s' with %d passes of %s method with byte %d and buffer size %d...\n", argv[1], num_passes, types[type - 1].name, byte, buf_size);
 
 	// Create buffer to write
 	char *buf = malloc(buf_size * sizeof *buf);
@@ -149,9 +136,9 @@ int main(int argc, char **argv) {
 			// Write and flush the bytes from the kerrnel buffer to the disk for each buffer of length buf_size
 			for (k = 0; k < buf_size; k++) {
 				if (type == 3) {
-					buf[k] = overwrite(i, j + k);
+					buf[k] = types[type - 1].overwrite(i, j + k);
 				} else {
-					buf[k] = overwrite(i, byte);
+					buf[k] = types[type - 1].overwrite(i, byte);
 				}
 			}
 			write(fd, buf, buf_size);
