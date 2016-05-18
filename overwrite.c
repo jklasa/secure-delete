@@ -3,16 +3,16 @@
 
 // Overwrite using zeros
 char set_bytes(int pass, int byte) {
-	return 0;
+	return byte;
 }
 
 // Overwrite using random bytes
-char random_bytes(int pass, int byte) {
+char random_bytes(int pass, int curr_byte) {
 	return rand() % 256;
 }
 
 // Attempt at using the Gutmann method of data erasure byte by byte
-char mixed_bytes(int pass, int byte) {
+char mixed_bytes(int pass, int curr_byte) {
 	char val;
 	int b;
 
@@ -32,7 +32,7 @@ char mixed_bytes(int pass, int byte) {
 			val = 170; break;
 		case 26:
 		case 7:
-			b = byte % 3;
+			b = curr_byte % 3;
 			switch (b) {
 				case 0:
 					val = 146; break;
@@ -44,7 +44,7 @@ char mixed_bytes(int pass, int byte) {
 			break;
 		case 27:
 		case 8:
-			b = byte % 3;
+			b = curr_byte % 3;
 			switch (b) {
 				case 0:
 					val = 73; break;
@@ -56,7 +56,7 @@ char mixed_bytes(int pass, int byte) {
 			break;
 		case 28:
 		case 9:
-			b = byte % 3;
+			b = curr_byte % 3;
 			switch (b) {
 				case 0:
 					val = 36; break;
@@ -99,7 +99,7 @@ char mixed_bytes(int pass, int byte) {
 		case 25:
 			val = 255; break;
 		case 29:
-			b = byte % 3;
+			b = curr_byte % 3;
 			switch (b) {
 				case 0:
 					val = 109; break;
@@ -110,7 +110,7 @@ char mixed_bytes(int pass, int byte) {
 			}
 			break;
 		case 30:
-			b = byte % 3;
+			b = curr_byte % 3;
 			switch (b) {
 				case 0:
 					val = 182; break;
@@ -121,7 +121,7 @@ char mixed_bytes(int pass, int byte) {
 			}
 			break;
 		case 31:
-			b = byte % 3;
+			b = curr_byte % 3;
 			switch (b) {
 				case 0:
 					val = 216; break;
