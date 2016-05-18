@@ -7,10 +7,10 @@ typedef char (*overwriteType)(int, int);
 typedef struct Type {
 	const char * const name;
 	overwriteType overwrite;
-} type_t;
+} Type;
 
 // Array of possible overwrite methods to use
-const extern type_t types[];
+const extern Type types[];
 
 // Number of overwrite methods
 const extern int NUM_TYPES;

@@ -8,7 +8,7 @@
 
 
 // Available overwrite types
-const type_t types[] = { {.name = "Set Bytes", .overwrite = &set_bytes},
+const Type types[] = { {.name = "Set Bytes", .overwrite = &set_bytes},
 						{.name = "Random", .overwrite = &random_bytes},
 						{.name = "Gutmann", .overwrite = &mixed_bytes} };
 const int NUM_TYPES = 3;
@@ -149,9 +149,9 @@ char mixed_bytes(int pass, int curr_byte) {
 			// Abort this method if an invalid pass is provided (this results in a messy exit - no cleanup is done)
 			puts("--Invalid pass using Gutmann's method");
 			exit(1); 
-            */
+			*/
 
-            val = rand() % 256; break;
+			val = rand() % 256; break;
 	   }
 	
 	return val;
